@@ -5,6 +5,9 @@ import NovelCardSkeleton from "@/components/NovelCardSkeleton";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, TrendingUp, Star, Sparkles, ArrowRight } from "lucide-react";
 import { useState } from "react";
+import PageTransition from "@/components/PageTransition";
+import { StaggerContainer, StaggerItem } from "@/components/StaggerAnimations";
+import { motion } from "framer-motion";
 
 const GENRES = [
   "Fantasy", "Romance", "Action", "Adventure", "Sci-Fi",
@@ -46,9 +49,15 @@ export default function HomePage() {
   const skeletons = Array.from({ length: 5 }, (_, i) => <NovelCardSkeleton key={i} />);
 
   return (
+    <PageTransition>
     <div className="space-y-16">
       {/* Hero */}
-      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary to-secondary p-8 md:p-16 text-primary-foreground">
+      <motion.section
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5 }}
+        className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary to-secondary p-8 md:p-16 text-primary-foreground"
+      >
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCI+PHBhdGggZD0iTTAgMGg2MHY2MEgweiIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjEuNSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjEpIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCBmaWxsPSJ1cmwoI2EpIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIi8+PC9zdmc+')] opacity-50" />
         <div className="relative max-w-2xl space-y-6">
           <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
@@ -72,7 +81,7 @@ export default function HomePage() {
             </button>
           </form>
         </div>
-      </section>
+      </motion.section>
 
       {/* Genres */}
       <section className="space-y-4">
@@ -92,30 +101,31 @@ export default function HomePage() {
 
       {/* Featured */}
       <Section title="Featured Novels" icon={<Sparkles className="h-6 w-6 text-primary" />}>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {featured.isLoading
             ? skeletons
-            : featured.data?.contentList?.map((n) => <NovelCard key={n.novelId} novel={n} />)}
-        </div>
+            : featured.data?.contentList?.map((n) => <StaggerItem key={n.novelId}><NovelCard novel={n} /></StaggerItem>)}
+        </StaggerContainer>
       </Section>
 
       {/* Trending */}
       <Section title="Trending Now" icon={<TrendingUp className="h-6 w-6 text-primary" />} linkTo="/rankings">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" delay={0.1}>
           {trending.isLoading
             ? skeletons
-            : trending.data?.list?.map((n, i) => <NovelCard key={n.novelId} novel={n} rank={i + 1} />)}
-        </div>
+            : trending.data?.list?.map((n, i) => <StaggerItem key={n.novelId}><NovelCard novel={n} rank={i + 1} /></StaggerItem>)}
+        </StaggerContainer>
       </Section>
 
       {/* Top Rated */}
       <Section title="Top Rated" icon={<Star className="h-6 w-6 text-amber-500" />} linkTo="/rankings">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" delay={0.2}>
           {topRated.isLoading
             ? skeletons
-            : topRated.data?.list?.map((n, i) => <NovelCard key={n.novelId} novel={n} rank={i + 1} />)}
-        </div>
+            : topRated.data?.list?.map((n, i) => <StaggerItem key={n.novelId}><NovelCard novel={n} rank={i + 1} /></StaggerItem>)}
+        </StaggerContainer>
       </Section>
     </div>
+    </PageTransition>
   );
 }

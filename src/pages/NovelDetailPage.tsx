@@ -4,6 +4,8 @@ import { api } from "@/lib/api";
 import NovelCard from "@/components/NovelCard";
 import { Star, Eye, BookOpen, Clock, Share2, ChevronRight } from "lucide-react";
 import { useState } from "react";
+import PageTransition from "@/components/PageTransition";
+import { motion } from "framer-motion";
 
 export default function NovelDetailPage() {
   const { detailPath } = useParams<{ detailPath: string }>();
@@ -47,6 +49,7 @@ export default function NovelDetailPage() {
   const firstChapter = chapters?.chapterList?.[0];
 
   return (
+    <PageTransition>
     <div className="space-y-12">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1 text-sm text-muted-foreground">
@@ -113,6 +116,20 @@ export default function NovelDetailPage() {
             {firstChapter && (
               <Link
                 to={`/read/${firstChapter.chapterId}`}
+                onClick={() => {
+                  // Pre-save novel info to reading history so history page has it
+                  const history = JSON.parse(localStorage.getItem("readingHistory") || "{}");
+                  history[novel.novelId] = {
+                    ...history[novel.novelId],
+                    chapterId: firstChapter.chapterId,
+                    chapterName: firstChapter.chapterName,
+                    timestamp: Date.now(),
+                    novelTitle: novel.title,
+                    novelCover: novel.cover?.url,
+                    detailPath: novel.detailPath,
+                  };
+                  localStorage.setItem("readingHistory", JSON.stringify(history));
+                }}
                 className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
               >
                 <BookOpen className="h-4 w-4" /> Start Reading
@@ -182,5 +199,6 @@ export default function NovelDetailPage() {
         </section>
       )}
     </div>
+    </PageTransition>
   );
 }

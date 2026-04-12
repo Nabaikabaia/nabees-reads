@@ -4,6 +4,7 @@ import NovelCard from "@/components/NovelCard";
 import NovelCardSkeleton from "@/components/NovelCardSkeleton";
 import { useState } from "react";
 import { Trophy, TrendingUp, Star } from "lucide-react";
+import PageTransition from "@/components/PageTransition";
 
 const TABS = [
   { rank: 1, label: "Must Read", icon: <Trophy className="h-4 w-4" /> },
@@ -20,6 +21,7 @@ export default function RankingsPage() {
   });
 
   return (
+    <PageTransition>
     <div className="space-y-8">
       <h1 className="text-3xl font-bold">Rankings</h1>
 
@@ -45,5 +47,6 @@ export default function RankingsPage() {
           : data?.list?.map((n, i) => <NovelCard key={n.novelId} novel={n} rank={i + 1} />)}
       </div>
     </div>
+    </PageTransition>
   );
 }

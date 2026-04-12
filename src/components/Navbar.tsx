@@ -37,6 +37,7 @@ export default function Navbar() {
           <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">Home</Link>
           <Link to="/rankings" className="text-muted-foreground hover:text-foreground transition-colors">Rankings</Link>
           <Link to="/library" className="text-muted-foreground hover:text-foreground transition-colors">Library</Link>
+          <Link to="/history" className="text-muted-foreground hover:text-foreground transition-colors">History</Link>
         </nav>
 
         <form onSubmit={handleSearch} className="hidden md:flex relative flex-1 max-w-md">
@@ -75,6 +76,7 @@ export default function Navbar() {
             <Link to="/" onClick={() => setMenuOpen(false)} className="py-2 hover:text-primary">Home</Link>
             <Link to="/rankings" onClick={() => setMenuOpen(false)} className="py-2 hover:text-primary">Rankings</Link>
             <Link to="/library" onClick={() => setMenuOpen(false)} className="py-2 hover:text-primary">Library</Link>
+            <Link to="/history" onClick={() => setMenuOpen(false)} className="py-2 hover:text-primary">History</Link>
           </nav>
         </div>
       )}

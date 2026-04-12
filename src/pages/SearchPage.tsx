@@ -5,6 +5,7 @@ import NovelCard from "@/components/NovelCard";
 import NovelCardSkeleton from "@/components/NovelCardSkeleton";
 import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
+import PageTransition from "@/components/PageTransition";
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -28,6 +29,7 @@ export default function SearchPage() {
   const goPage = (p: number) => setSearchParams({ q, p: String(p) });
 
   return (
+    <PageTransition>
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold mb-4">Search Novels</h1>
@@ -81,5 +83,6 @@ export default function SearchPage() {
         </div>
       )}
     </div>
+    </PageTransition>
   );
 }
