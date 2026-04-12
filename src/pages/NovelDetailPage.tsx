@@ -113,6 +113,20 @@ export default function NovelDetailPage() {
             {firstChapter && (
               <Link
                 to={`/read/${firstChapter.chapterId}`}
+                onClick={() => {
+                  // Pre-save novel info to reading history so history page has it
+                  const history = JSON.parse(localStorage.getItem("readingHistory") || "{}");
+                  history[novel.novelId] = {
+                    ...history[novel.novelId],
+                    chapterId: firstChapter.chapterId,
+                    chapterName: firstChapter.chapterName,
+                    timestamp: Date.now(),
+                    novelTitle: novel.title,
+                    novelCover: novel.cover?.url,
+                    detailPath: novel.detailPath,
+                  };
+                  localStorage.setItem("readingHistory", JSON.stringify(history));
+                }}
                 className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
               >
                 <BookOpen className="h-4 w-4" /> Start Reading
