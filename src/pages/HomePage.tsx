@@ -81,7 +81,7 @@ export default function HomePage() {
             </button>
           </form>
         </div>
-      </section>
+      </motion.section>
 
       {/* Genres */}
       <section className="space-y-4">
@@ -101,30 +101,31 @@ export default function HomePage() {
 
       {/* Featured */}
       <Section title="Featured Novels" icon={<Sparkles className="h-6 w-6 text-primary" />}>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {featured.isLoading
             ? skeletons
-            : featured.data?.contentList?.map((n) => <NovelCard key={n.novelId} novel={n} />)}
-        </div>
+            : featured.data?.contentList?.map((n) => <StaggerItem key={n.novelId}><NovelCard novel={n} /></StaggerItem>)}
+        </StaggerContainer>
       </Section>
 
       {/* Trending */}
       <Section title="Trending Now" icon={<TrendingUp className="h-6 w-6 text-primary" />} linkTo="/rankings">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" delay={0.1}>
           {trending.isLoading
             ? skeletons
-            : trending.data?.list?.map((n, i) => <NovelCard key={n.novelId} novel={n} rank={i + 1} />)}
-        </div>
+            : trending.data?.list?.map((n, i) => <StaggerItem key={n.novelId}><NovelCard novel={n} rank={i + 1} /></StaggerItem>)}
+        </StaggerContainer>
       </Section>
 
       {/* Top Rated */}
       <Section title="Top Rated" icon={<Star className="h-6 w-6 text-amber-500" />} linkTo="/rankings">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <StaggerContainer className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" delay={0.2}>
           {topRated.isLoading
             ? skeletons
-            : topRated.data?.list?.map((n, i) => <NovelCard key={n.novelId} novel={n} rank={i + 1} />)}
-        </div>
+            : topRated.data?.list?.map((n, i) => <StaggerItem key={n.novelId}><NovelCard novel={n} rank={i + 1} /></StaggerItem>)}
+        </StaggerContainer>
       </Section>
     </div>
+    </PageTransition>
   );
 }
