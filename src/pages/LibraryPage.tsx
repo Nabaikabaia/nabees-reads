@@ -3,6 +3,7 @@ import { api } from "@/lib/api";
 import NovelCard from "@/components/NovelCard";
 import NovelCardSkeleton from "@/components/NovelCardSkeleton";
 import { BookOpen, Trash2 } from "lucide-react";
+import PageTransition from "@/components/PageTransition";
 import { useState, useEffect } from "react";
 import type { Novel } from "@/types/novel";
 
@@ -20,6 +21,7 @@ export default function LibraryPage() {
   };
 
   return (
+    <PageTransition>
     <div className="space-y-8">
       <h1 className="text-3xl font-bold flex items-center gap-2">
         <BookOpen className="h-8 w-8 text-primary" /> My Library
