@@ -5,6 +5,9 @@ import NovelCardSkeleton from "@/components/NovelCardSkeleton";
 import { Link, useNavigate } from "react-router-dom";
 import { Search, TrendingUp, Star, Sparkles, ArrowRight } from "lucide-react";
 import { useState } from "react";
+import PageTransition from "@/components/PageTransition";
+import { StaggerContainer, StaggerItem } from "@/components/StaggerAnimations";
+import { motion } from "framer-motion";
 
 const GENRES = [
   "Fantasy", "Romance", "Action", "Adventure", "Sci-Fi",
