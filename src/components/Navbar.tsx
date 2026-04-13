@@ -1,8 +1,9 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Search, BookOpen, Moon, Sun, Menu, X, Home, Trophy, Library, Clock, Settings } from "lucide-react";
+import { Search, Moon, Sun, Menu, X, Home, Trophy, Library, Clock, Settings } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useSettings } from "@/hooks/useSettings";
 import { motion, AnimatePresence } from "framer-motion";
+import logoImg from "@/assets/logo.png";
 
 const NAV_ITEMS = [
   { to: "/", label: "Home", icon: Home },
