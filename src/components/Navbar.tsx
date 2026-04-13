@@ -1,8 +1,9 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Search, BookOpen, Moon, Sun, Menu, X, Home, Trophy, Library, Clock, Settings } from "lucide-react";
+import { Search, Moon, Sun, Menu, X, Home, Trophy, Library, Clock, Settings } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useSettings } from "@/hooks/useSettings";
 import { motion, AnimatePresence } from "framer-motion";
+import logoImg from "@/assets/logo.png";
 
 const NAV_ITEMS = [
   { to: "/", label: "Home", icon: Home },
@@ -46,7 +47,7 @@ export default function Navbar() {
               {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
             <Link to="/" className="flex items-center gap-2 shrink-0">
-              <BookOpen className="h-6 w-6 text-primary" />
+              <img src={logoImg} alt="Nabees Novel Zone" className="h-8 w-8" />
               <span className="text-lg font-bold tracking-tight hidden sm:inline">
                 Nabees <span className="text-primary">Novel Zone</span>
               </span>
@@ -120,7 +121,7 @@ export default function Navbar() {
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b border-border">
                 <Link to="/" className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
-                  <BookOpen className="h-6 w-6 text-primary" />
+                  <img src={logoImg} alt="Nabees Novel Zone" className="h-8 w-8" />
                   <span className="font-bold">Nabees Novel Zone</span>
                 </Link>
                 <button onClick={() => setMenuOpen(false)} className="p-1.5 rounded-lg hover:bg-muted">
