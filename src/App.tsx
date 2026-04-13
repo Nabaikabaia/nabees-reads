@@ -14,7 +14,11 @@ import ReaderPage from "@/pages/ReaderPage";
 import RankingsPage from "@/pages/RankingsPage";
 import LibraryPage from "@/pages/LibraryPage";
 import HistoryPage from "@/pages/HistoryPage";
+import SettingsPage from "@/pages/SettingsPage";
 import NotFound from "@/pages/NotFound";
+
+// Initialize dark mode from settings before render
+import "@/hooks/useSettings";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,6 +42,7 @@ function AnimatedRoutes() {
         <Route path="/rankings" element={<RankingsPage />} />
         <Route path="/library" element={<LibraryPage />} />
         <Route path="/history" element={<HistoryPage />} />
+        <Route path="/settings" element={<SettingsPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>
@@ -52,7 +57,7 @@ const App = () => (
       <BrowserRouter>
         <div className="min-h-screen flex flex-col">
           <Navbar />
-          <main className="flex-1 container py-8">
+          <main className="flex-1 container py-6">
             <AnimatedRoutes />
           </main>
           <Footer />
