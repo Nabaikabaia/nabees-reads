@@ -29,6 +29,8 @@ export default function NovelDetailPage() {
     enabled: !!novel?.novelId,
   });
 
+  const recNovels = recs?.contentList || [];
+
   if (isLoading) {
     return (
       <div className="animate-pulse space-y-8">
