@@ -190,11 +190,11 @@ export default function NovelDetailPage() {
       )}
 
       {/* Recommendations */}
-      {recs?.list && recs.list.length > 0 && (
+      {recNovels.length > 0 && (
         <section className="space-y-4">
           <h2 className="text-xl font-bold">You May Also Like</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {recs.list.map((n) => (
+            {recNovels.map((n) => (
               <NovelCard key={n.novelId} novel={n} />
             ))}
           </div>
