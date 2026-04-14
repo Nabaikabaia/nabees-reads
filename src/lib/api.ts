@@ -6,7 +6,7 @@ import type {
   Novel,
 } from "@/types/novel";
 
-const API_BASE = "https://novel-api.nabaikabaiaguo.workers.dev";
+const API_BASE = "/api";
 
 async function fetchApi<T>(path: string): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`);
