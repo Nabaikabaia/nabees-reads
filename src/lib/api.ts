@@ -6,7 +6,7 @@ import type {
   Novel,
 } from "@/types/novel";
 
-const API_BASE = "https://novel-api.nabaikabaiaguo.workers.dev";
+const API_BASE = "/api";
 
 async function fetchApi<T>(path: string): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`);
@@ -67,4 +67,7 @@ export const api = {
 
   getGenre: (genreId: string, status = 0, sort = 1, p = 1, l = 50) =>
     fetchApi<GenreResponse>(`/genre/${genreId}?status=${status}&sort=${sort}&p=${p}&l=${l}`),
+
+  getCurated: (op = 52, p = 1, l = 10) =>
+    fetchApi<FeaturedResponse>(`/operation/content?op=${op}&p=${p}&l=${l}`),
 };

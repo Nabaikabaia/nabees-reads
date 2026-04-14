@@ -10,11 +10,6 @@ import { StaggerContainer, StaggerItem } from "@/components/StaggerAnimations";
 import { motion } from "framer-motion";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 
-const GENRES = [
-  "Fantasy", "Romance", "Action", "Adventure", "Sci-Fi",
-  "Mystery", "Horror", "Comedy", "Drama", "Urban",
-];
-
 function Section({
   title,
   icon,
@@ -68,6 +63,14 @@ export default function HomePage() {
 
   const trending = useQuery({ queryKey: ["trending"], queryFn: () => api.getRankings(2, 1, 10) });
   const topRated = useQuery({ queryKey: ["topRated"], queryFn: () => api.getRankings(3, 1, 10) });
+
+  // Fetch real genres from API
+  const genresQuery = useQuery({
+    queryKey: ["genres-list"],
+    queryFn: () => api.getGenre("1001", 0, 1, 1, 1),
+    staleTime: 30 * 60 * 1000,
+  });
+  const genres = genresQuery.data?.genres || [];
 
   const featuredNovels = featured.data?.pages.flatMap((p) => p.contentList || []) || [];
 
@@ -194,17 +197,26 @@ export default function HomePage() {
 
         {/* Genres */}
         <section className="space-y-4">
-          <h2 className="text-xl font-bold">Browse Genres</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold">Browse Genres</h2>
+            <Link to="/genres" className="flex items-center gap-1 text-sm text-primary hover:underline font-medium">
+              View all <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
           <div className="flex flex-wrap gap-2">
-            {GENRES.map((g) => (
-              <Link
-                key={g}
-                to={`/search?q=${encodeURIComponent(g)}`}
-                className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all hover:shadow-md"
-              >
-                {g}
-              </Link>
-            ))}
+            {genres.length > 0
+              ? genres.map((g) => (
+                  <Link
+                    key={g.genreId}
+                    to={`/genres?id=${g.genreId}`}
+                    className="rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all hover:shadow-md"
+                  >
+                    {g.title}
+                  </Link>
+                ))
+              : Array.from({ length: 10 }, (_, i) => (
+                  <div key={i} className="h-9 w-24 rounded-full bg-muted animate-pulse" />
+                ))}
           </div>
         </section>
 
