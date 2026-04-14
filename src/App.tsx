@@ -12,6 +12,7 @@ import NovelDetailPage from "@/pages/NovelDetailPage";
 import ChaptersPage from "@/pages/ChaptersPage";
 import ReaderPage from "@/pages/ReaderPage";
 import RankingsPage from "@/pages/RankingsPage";
+import GenrePage from "@/pages/GenrePage";
 import LibraryPage from "@/pages/LibraryPage";
 import HistoryPage from "@/pages/HistoryPage";
 import SettingsPage from "@/pages/SettingsPage";
@@ -40,6 +41,7 @@ function AnimatedRoutes() {
         <Route path="/novel/:detailPath/chapters" element={<ChaptersPage />} />
         <Route path="/read/:chapterId" element={<ReaderPage />} />
         <Route path="/rankings" element={<RankingsPage />} />
+        <Route path="/genres" element={<GenrePage />} />
         <Route path="/library" element={<LibraryPage />} />
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/settings" element={<SettingsPage />} />

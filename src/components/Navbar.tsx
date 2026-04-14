@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Search, Moon, Sun, Menu, X, Home, Trophy, Library, Clock, Settings } from "lucide-react";
+import { Search, Moon, Sun, Menu, X, Home, Trophy, Library, Clock, Settings, BookOpen } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useSettings } from "@/hooks/useSettings";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,6 +8,7 @@ import logoImg from "@/assets/logo.png";
 const NAV_ITEMS = [
   { to: "/", label: "Home", icon: Home },
   { to: "/rankings", label: "Rankings", icon: Trophy },
+  { to: "/genres", label: "Genres", icon: BookOpen },
   { to: "/library", label: "Library", icon: Library },
   { to: "/history", label: "History", icon: Clock },
   { to: "/settings", label: "Settings", icon: Settings },
