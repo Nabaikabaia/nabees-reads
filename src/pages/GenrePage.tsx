@@ -22,8 +22,8 @@ const SORT_OPTIONS = [
 export default function GenrePage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const genreId = searchParams.get("id") || "1001";
-  const status = parseInt(searchParams.get("status") || "0");
-  const sort = parseInt(searchParams.get("sort") || "1");
+  const status = (parseInt(searchParams.get("status") || "0") as 0 | 1 | 2);
+  const sort = (parseInt(searchParams.get("sort") || "1") as 1 | 2);
 
   // Fetch genre list (use any genre request to get the full genres array)
   const { data: genreData } = useQuery({

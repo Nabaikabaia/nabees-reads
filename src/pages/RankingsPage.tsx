@@ -14,7 +14,7 @@ const TABS = [
 ];
 
 export default function RankingsPage() {
-  const [activeRank, setActiveRank] = useState(2);
+  const [activeRank, setActiveRank] = useState<1 | 2 | 3>(2);
 
   const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: ["rankings-infinite", activeRank],
@@ -42,7 +42,7 @@ export default function RankingsPage() {
           {TABS.map((t) => (
             <button
               key={t.rank}
-              onClick={() => setActiveRank(t.rank)}
+              onClick={() => setActiveRank(t.rank as 1 | 2 | 3)}
               className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                 activeRank === t.rank
                   ? "bg-primary text-primary-foreground"

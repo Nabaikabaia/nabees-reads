@@ -2,10 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "react-router-dom";
 import { api } from "@/lib/api";
 import NovelCard from "@/components/NovelCard";
-import { Star, Eye, BookOpen, Clock, Share2, ChevronRight } from "lucide-react";
+import { Star, Eye, BookOpen, Clock, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import PageTransition from "@/components/PageTransition";
-import { motion } from "framer-motion";
+import ShareButton from "@/components/ShareButton";
 
 export default function NovelDetailPage() {
   const { detailPath } = useParams<{ detailPath: string }>();
@@ -155,12 +155,10 @@ export default function NovelDetailPage() {
             >
               + Library
             </button>
-            <button
-              onClick={() => navigator.clipboard.writeText(window.location.href)}
-              className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm hover:bg-muted transition-colors"
-            >
-              <Share2 className="h-4 w-4" />
-            </button>
+            <ShareButton
+              title={novel.title}
+              text={`Read "${novel.title}" by ${novel.author} on Nabees Novel Zone`}
+            />
           </div>
         </div>
       </div>

@@ -1,7 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Search, Moon, Sun, Menu, X, Home, Trophy, Library, Clock, Settings, BookOpen } from "lucide-react";
+import { Search, Menu, X, Home, Trophy, Library, Clock, Settings, BookOpen } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import { useSettings } from "@/hooks/useSettings";
 import { motion, AnimatePresence } from "framer-motion";
 import logoImg from "@/assets/logo.png";
 
@@ -16,7 +15,6 @@ const NAV_ITEMS = [
 
 export default function Navbar() {
   const [query, setQuery] = useState("");
-  const { settings, setSettings } = useSettings();
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -76,23 +74,17 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Desktop search + theme */}
+          {/* Desktop search */}
           <div className="flex items-center gap-2">
             <form onSubmit={handleSearch} className="hidden md:flex relative max-w-xs">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search..."
-                className="w-full rounded-lg border border-input bg-background pl-9 pr-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                placeholder="Search for something..."
+                className="w-full rounded-full border border-input bg-muted/50 pl-9 pr-4 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/30 focus:bg-background transition-all"
               />
             </form>
-            <button
-              onClick={() => setSettings({ darkMode: !settings.darkMode })}
-              className="p-2 rounded-lg hover:bg-muted transition-colors"
-            >
-              {settings.darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </button>
           </div>
         </div>
       </header>
@@ -173,13 +165,14 @@ export default function Navbar() {
 
               {/* Footer */}
               <div className="p-4 border-t border-border">
-                <button
-                  onClick={() => setSettings({ darkMode: !settings.darkMode })}
+                <Link
+                  to="/settings"
+                  onClick={() => setMenuOpen(false)}
                   className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                 >
-                  {settings.darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                  {settings.darkMode ? "Light Mode" : "Dark Mode"}
-                </button>
+                  <Settings className="h-5 w-5" />
+                  Appearance & Settings
+                </Link>
               </div>
             </motion.aside>
           </>

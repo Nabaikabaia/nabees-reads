@@ -7,7 +7,7 @@ export default function ChaptersPage() {
   const { detailPath } = useParams<{ detailPath: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("p") || "1");
-  const order = searchParams.get("order") || "ASC";
+  const order = (searchParams.get("order") === "DESC" ? "DESC" : "ASC") as "ASC" | "DESC";
 
   const { data: novel } = useQuery({
     queryKey: ["novel", detailPath],
