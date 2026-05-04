@@ -5,7 +5,7 @@ import NovelCard from "@/components/NovelCard";
 import { Star, Eye, BookOpen, Clock, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import PageTransition from "@/components/PageTransition";
-import { motion } from "framer-motion";
+import ShareButton from "@/components/ShareButton";
 import ShareButton from "@/components/ShareButton";
 
 export default function NovelDetailPage() {
