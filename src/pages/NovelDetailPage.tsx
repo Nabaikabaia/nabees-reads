@@ -18,8 +18,8 @@ export default function NovelDetailPage() {
   });
 
   const { data: chapters } = useQuery({
-    queryKey: ["chapters", novel?.novelId],
-    queryFn: () => api.getChapters(novel!.novelId, "ASC", 1, 5),
+    queryKey: ["chapters-preview", novel?.novelId],
+    queryFn: () => api.getChapters(novel!.novelId, "ASC", 1, 10),
     enabled: !!novel?.novelId,
   });
 
