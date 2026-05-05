@@ -50,7 +50,10 @@ export default function RankingsPage() {
           {TABS.map((t) => (
             <button
               key={t.rank}
-              onClick={() => setActiveRank(t.rank as 1 | 2 | 3)}
+              onClick={() => {
+                setActiveRank(t.rank as 1 | 2 | 3);
+                setSearchParams({ tab: String(t.rank) });
+              }}
               className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                 activeRank === t.rank
                   ? "bg-primary text-primary-foreground"
