@@ -2,19 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { Link } from "react-router-dom";
 import { Clock, BookOpen, Trash2, PlayCircle } from "lucide-react";
-import { useState, useEffect } from "react";
 import PageTransition from "@/components/PageTransition";
 import { StaggerContainer, StaggerItem } from "@/components/StaggerAnimations";
 import { motion } from "framer-motion";
-
-interface HistoryEntry {
-  chapterId: string;
-  chapterName: string;
-  timestamp: number;
-  novelTitle?: string;
-  novelCover?: string;
-  detailPath?: string;
-}
+import { useReadingHistory, removeHistory, clearHistory, type HistoryEntry } from "@/hooks/useReadingHistory";
 
 function formatTimeAgo(ts: number): string {
   const diff = Date.now() - ts;
