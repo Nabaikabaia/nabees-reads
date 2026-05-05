@@ -15,7 +15,14 @@ const TABS = [
 ];
 
 export default function RankingsPage() {
-  const [activeRank, setActiveRank] = useState<1 | 2 | 3>(2);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initial = (parseInt(searchParams.get("tab") || "2", 10) as 1 | 2 | 3) || 2;
+  const [activeRank, setActiveRank] = useState<1 | 2 | 3>(initial);
+
+  useEffect(() => {
+    const t = parseInt(searchParams.get("tab") || "0", 10);
+    if (t === 1 || t === 2 || t === 3) setActiveRank(t);
+  }, [searchParams]);
 
   const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: ["rankings-infinite", activeRank],
