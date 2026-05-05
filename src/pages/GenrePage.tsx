@@ -7,6 +7,7 @@ import { useCallback } from "react";
 import { Loader2, BookOpen } from "lucide-react";
 import PageTransition from "@/components/PageTransition";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
+import { GENRES } from "@/lib/genres";
 
 const STATUS_OPTIONS = [
   { value: 0, label: "All" },
