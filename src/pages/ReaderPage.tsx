@@ -4,6 +4,7 @@ import { api } from "@/lib/api";
 import { ChevronLeft, ChevronRight, Minus, Plus, Moon, Sun, BookOpen } from "lucide-react";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useSettings } from "@/hooks/useSettings";
+import { saveHistory } from "@/hooks/useReadingHistory";
 
 const FONT_CLASS_MAP = {
   serif: "font-reading",
