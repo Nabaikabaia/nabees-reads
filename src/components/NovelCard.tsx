@@ -11,7 +11,7 @@ export default function NovelCard({ novel, rank }: NovelCardProps) {
   return (
     <Link
       to={`/novel/${novel.detailPath}`}
-      className="group relative flex flex-col rounded-xl border border-border bg-card overflow-hidden hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 hover:-translate-y-1"
+      className="group relative flex flex-col rounded-xl border border-border bg-card overflow-hidden hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 hover:-translate-y-1 active:scale-[0.97] active:opacity-90 touch-manipulation select-none"
     >
       {rank && (
         <div className="absolute top-2 left-2 z-10 flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground text-xs font-bold">
