@@ -37,18 +37,13 @@ export default function ReaderPage() {
   const prevChapter = currentIndex > 0 ? chapterList[currentIndex - 1] : null;
   const nextChapter = currentIndex < chapterList.length - 1 ? chapterList[currentIndex + 1] : null;
 
-  // Save reading progress
+  // Save reading progress (real-time across history page)
   useEffect(() => {
-    if (chapter) {
-      const history = JSON.parse(localStorage.getItem("readingHistory") || "{}");
-      const existing = history[chapter.novelId] || {};
-      history[chapter.novelId] = {
-        ...existing,
+    if (chapter && chapterId) {
+      saveHistory(chapter.novelId, {
         chapterId,
         chapterName: chapter.chapterName,
-        timestamp: Date.now(),
-      };
-      localStorage.setItem("readingHistory", JSON.stringify(history));
+      });
     }
   }, [chapter, chapterId]);
 
