@@ -7,6 +7,7 @@ import { useCallback } from "react";
 import { Loader2, BookOpen } from "lucide-react";
 import PageTransition from "@/components/PageTransition";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
+import { GENRES } from "@/lib/genres";
 
 const STATUS_OPTIONS = [
   { value: 0, label: "All" },
@@ -25,14 +26,18 @@ export default function GenrePage() {
   const status = (parseInt(searchParams.get("status") || "0") as 0 | 1 | 2);
   const sort = (parseInt(searchParams.get("sort") || "1") as 1 | 2);
 
-  // Fetch genre list (use any genre request to get the full genres array)
+  // Merge static genre names with API list (API titles can be empty)
   const { data: genreData } = useQuery({
     queryKey: ["genre-list"],
     queryFn: () => api.getGenre("1001", 0, 1, 1, 1),
     staleTime: 30 * 60 * 1000,
   });
 
-  const genres = genreData?.genres || [];
+  const apiGenres = genreData?.genres || [];
+  const genres = GENRES.map((g) => {
+    const fromApi = apiGenres.find((a) => a.genreId === g.genreId);
+    return { genreId: g.genreId, title: (fromApi?.title && fromApi.title.trim()) || g.title };
+  });
 
   const {
     data,
@@ -84,7 +89,7 @@ export default function GenrePage() {
             <button
               key={g.genreId}
               onClick={() => updateParam("id", g.genreId)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-all active:scale-95 touch-manipulation ${
                 genreId === g.genreId
                   ? "bg-primary text-primary-foreground shadow-md"
                   : "border border-border bg-card hover:bg-muted"

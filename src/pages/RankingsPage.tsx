@@ -2,7 +2,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import NovelCard from "@/components/NovelCard";
 import NovelCardSkeleton from "@/components/NovelCardSkeleton";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Trophy, TrendingUp, Star, Loader2 } from "lucide-react";
 import PageTransition from "@/components/PageTransition";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
@@ -14,7 +15,14 @@ const TABS = [
 ];
 
 export default function RankingsPage() {
-  const [activeRank, setActiveRank] = useState<1 | 2 | 3>(2);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initial = (parseInt(searchParams.get("tab") || "2", 10) as 1 | 2 | 3) || 2;
+  const [activeRank, setActiveRank] = useState<1 | 2 | 3>(initial);
+
+  useEffect(() => {
+    const t = parseInt(searchParams.get("tab") || "0", 10);
+    if (t === 1 || t === 2 || t === 3) setActiveRank(t);
+  }, [searchParams]);
 
   const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useInfiniteQuery({
     queryKey: ["rankings-infinite", activeRank],
@@ -42,7 +50,10 @@ export default function RankingsPage() {
           {TABS.map((t) => (
             <button
               key={t.rank}
-              onClick={() => setActiveRank(t.rank as 1 | 2 | 3)}
+              onClick={() => {
+                setActiveRank(t.rank as 1 | 2 | 3);
+                setSearchParams({ tab: String(t.rank) });
+              }}
               className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                 activeRank === t.rank
                   ? "bg-primary text-primary-foreground"

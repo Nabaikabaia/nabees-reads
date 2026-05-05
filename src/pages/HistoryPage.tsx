@@ -2,19 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { Link } from "react-router-dom";
 import { Clock, BookOpen, Trash2, PlayCircle } from "lucide-react";
-import { useState, useEffect } from "react";
 import PageTransition from "@/components/PageTransition";
 import { StaggerContainer, StaggerItem } from "@/components/StaggerAnimations";
 import { motion } from "framer-motion";
-
-interface HistoryEntry {
-  chapterId: string;
-  chapterName: string;
-  timestamp: number;
-  novelTitle?: string;
-  novelCover?: string;
-  detailPath?: string;
-}
+import { useReadingHistory, removeHistory, clearHistory, type HistoryEntry } from "@/hooks/useReadingHistory";
 
 function formatTimeAgo(ts: number): string {
   const diff = Date.now() - ts;
@@ -29,26 +20,7 @@ function formatTimeAgo(ts: number): string {
 }
 
 export default function HistoryPage() {
-  const [entries, setEntries] = useState<Record<string, HistoryEntry>>({});
-
-  useEffect(() => {
-    setEntries(JSON.parse(localStorage.getItem("readingHistory") || "{}"));
-  }, []);
-
-  const sortedEntries = Object.entries(entries)
-    .sort(([, a], [, b]) => b.timestamp - a.timestamp);
-
-  const clearHistory = () => {
-    localStorage.removeItem("readingHistory");
-    setEntries({});
-  };
-
-  const removeEntry = (novelId: string) => {
-    const updated = { ...entries };
-    delete updated[novelId];
-    setEntries(updated);
-    localStorage.setItem("readingHistory", JSON.stringify(updated));
-  };
+  const { sorted } = useReadingHistory();
 
   return (
     <PageTransition>
@@ -57,7 +29,7 @@ export default function HistoryPage() {
           <h1 className="text-3xl font-bold flex items-center gap-2">
             <Clock className="h-8 w-8 text-primary" /> Reading History
           </h1>
-          {sortedEntries.length > 0 && (
+          {sorted.length > 0 && (
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -69,7 +41,7 @@ export default function HistoryPage() {
           )}
         </div>
 
-        {sortedEntries.length === 0 ? (
+        {sorted.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -80,12 +52,12 @@ export default function HistoryPage() {
           </motion.div>
         ) : (
           <StaggerContainer className="space-y-3">
-            {sortedEntries.map(([novelId, entry]) => (
-              <StaggerItem key={novelId}>
+            {sorted.map((e) => (
+              <StaggerItem key={e.novelId}>
                 <HistoryItem
-                  novelId={novelId}
-                  entry={entry}
-                  onRemove={() => removeEntry(novelId)}
+                  novelId={e.novelId}
+                  entry={e}
+                  onRemove={() => removeHistory(e.novelId)}
                 />
               </StaggerItem>
             ))}
