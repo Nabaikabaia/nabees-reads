@@ -26,14 +26,18 @@ export default function GenrePage() {
   const status = (parseInt(searchParams.get("status") || "0") as 0 | 1 | 2);
   const sort = (parseInt(searchParams.get("sort") || "1") as 1 | 2);
 
-  // Fetch genre list (use any genre request to get the full genres array)
+  // Merge static genre names with API list (API titles can be empty)
   const { data: genreData } = useQuery({
     queryKey: ["genre-list"],
     queryFn: () => api.getGenre("1001", 0, 1, 1, 1),
     staleTime: 30 * 60 * 1000,
   });
 
-  const genres = genreData?.genres || [];
+  const apiGenres = genreData?.genres || [];
+  const genres = GENRES.map((g) => {
+    const fromApi = apiGenres.find((a) => a.genreId === g.genreId);
+    return { genreId: g.genreId, title: (fromApi?.title && fromApi.title.trim()) || g.title };
+  });
 
   const {
     data,
