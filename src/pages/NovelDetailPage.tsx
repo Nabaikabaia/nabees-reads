@@ -163,26 +163,34 @@ export default function NovelDetailPage() {
         </div>
       </div>
 
-      {/* First chapters preview */}
+      {/* First chapters preview (truncated) */}
       {chapters?.chapterList && chapters.chapterList.length > 0 && (
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold">Chapters</h2>
-            <Link to={`/novel/${detailPath}/chapters`} className="text-sm text-primary hover:underline">
-              View all {novel.totalChapters} chapters →
-            </Link>
+            <span className="text-xs text-muted-foreground">
+              Showing first 5 of {novel.totalChapters}
+            </span>
           </div>
           <div className="divide-y divide-border rounded-xl border border-border bg-card overflow-hidden">
-            {chapters.chapterList.map((ch) => (
+            {chapters.chapterList.slice(0, 5).map((ch) => (
               <Link
                 key={ch.chapterId}
                 to={`/read/${ch.chapterId}`}
-                className="flex items-center justify-between px-4 py-3 hover:bg-muted transition-colors"
+                className="flex items-center justify-between px-4 py-3 hover:bg-muted active:bg-muted/70 transition-colors touch-manipulation"
               >
-                <span className="text-sm">{ch.chapterName}</span>
-                <span className="text-xs text-muted-foreground">{ch.totalWords} words</span>
+                <span className="text-sm truncate pr-3">{ch.chapterName}</span>
+                <span className="text-xs text-muted-foreground shrink-0">{ch.totalWords} words</span>
               </Link>
             ))}
+          </div>
+          <div className="flex justify-center">
+            <Link
+              to={`/novel/${detailPath}/chapters`}
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-2.5 text-sm font-semibold hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors active:scale-95"
+            >
+              View all {novel.totalChapters} chapters →
+            </Link>
           </div>
         </section>
       )}
