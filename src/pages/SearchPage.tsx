@@ -6,6 +6,7 @@ import NovelCardSkeleton from "@/components/NovelCardSkeleton";
 import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import PageTransition from "@/components/PageTransition";
+import Seo from "@/components/Seo";
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -30,6 +31,11 @@ export default function SearchPage() {
 
   return (
     <PageTransition>
+    <Seo
+      title={q ? `Search: ${q}` : "Search Novels"}
+      description={q ? `Search results for "${q}" on Nabees Novel Zone.` : "Search thousands of novels by title, author, or keyword."}
+      path={q ? `/search?q=${encodeURIComponent(q)}` : "/search"}
+    />
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold mb-4">Search Novels</h1>

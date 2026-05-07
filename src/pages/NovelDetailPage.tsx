@@ -5,6 +5,7 @@ import NovelCard from "@/components/NovelCard";
 import { Star, Eye, BookOpen, Clock, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import PageTransition from "@/components/PageTransition";
+import Seo from "@/components/Seo";
 import ShareButton from "@/components/ShareButton";
 import { saveHistory } from "@/hooks/useReadingHistory";
 
@@ -53,6 +54,26 @@ export default function NovelDetailPage() {
 
   return (
     <PageTransition>
+    <Seo
+      title={`${novel.title} by ${novel.author}`}
+      description={novel.summary || `Read ${novel.title} by ${novel.author} — ${novel.totalChapters} chapters available on Nabees Novel Zone.`}
+      image={novel.cover?.url}
+      path={`/novel/${novel.detailPath}`}
+      type="book"
+      jsonLd={{
+        "@context": "https://schema.org",
+        "@type": "Book",
+        name: novel.title,
+        author: { "@type": "Person", name: novel.author },
+        description: novel.summary,
+        image: novel.cover?.url,
+        genre: novel.genres,
+        numberOfPages: novel.totalChapters,
+        aggregateRating: novel.score
+          ? { "@type": "AggregateRating", ratingValue: novel.score, bestRating: "5" }
+          : undefined,
+      }}
+    />
     <div className="space-y-12">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-1 text-sm text-muted-foreground">
