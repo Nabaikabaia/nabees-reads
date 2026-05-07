@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/novel/:detailPath", "destination": "/api/novel/:detailPath" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
