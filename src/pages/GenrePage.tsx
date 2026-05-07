@@ -6,6 +6,7 @@ import NovelCardSkeleton from "@/components/NovelCardSkeleton";
 import { useCallback } from "react";
 import { Loader2, BookOpen } from "lucide-react";
 import PageTransition from "@/components/PageTransition";
+import Seo from "@/components/Seo";
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 import { GENRES } from "@/lib/genres";
 
@@ -72,6 +73,11 @@ export default function GenrePage() {
 
   return (
     <PageTransition>
+      <Seo
+        title={`${currentTitle} Novels`}
+        description={`Browse ${currentTitle} novels — filter by status and sort by popularity or release date.`}
+        path={`/genres?id=${genreId}`}
+      />
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold flex items-center gap-2">
