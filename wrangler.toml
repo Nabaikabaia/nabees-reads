@@ -1,0 +1,8 @@
+# Cloudflare Pages configuration
+# Deploy with: npx wrangler pages deploy dist
+# Or connect via the Cloudflare dashboard for Git-based deploys.
+
+name = "nabees-novel-zone"
+compatibility_date = "2025-05-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "dist"
