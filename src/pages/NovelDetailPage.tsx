@@ -154,12 +154,6 @@ export default function NovelDetailPage() {
                 <BookOpen className="h-4 w-4" /> Start Reading
               </Link>
             )}
-            <Link
-              to={`/novel/${detailPath}/chapters`}
-              className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-2.5 text-sm font-semibold hover:bg-muted transition-colors"
-            >
-              All Chapters
-            </Link>
             <button
               onClick={() => {
                 const libs: string[] = JSON.parse(localStorage.getItem("library") || "[]");
