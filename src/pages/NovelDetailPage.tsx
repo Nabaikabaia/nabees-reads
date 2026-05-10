@@ -2,8 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "react-router-dom";
 import { api } from "@/lib/api";
 import NovelCard from "@/components/NovelCard";
-import { Star, Eye, BookOpen, Clock, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { Star, Eye, BookOpen, Clock, ChevronRight, BookmarkCheck, BookmarkPlus, Check } from "lucide-react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 import PageTransition from "@/components/PageTransition";
 import Seo from "@/components/Seo";
 import ShareButton from "@/components/ShareButton";
@@ -12,6 +14,33 @@ import { saveHistory } from "@/hooks/useReadingHistory";
 export default function NovelDetailPage() {
   const { detailPath } = useParams<{ detailPath: string }>();
   const [showFullSummary, setShowFullSummary] = useState(false);
+  const [inLibrary, setInLibrary] = useState(false);
+  const [justAdded, setJustAdded] = useState(false);
+
+  useEffect(() => {
+    if (!detailPath) return;
+    const libs: string[] = JSON.parse(localStorage.getItem("library") || "[]");
+    setInLibrary(libs.includes(detailPath));
+  }, [detailPath]);
+
+  const toggleLibrary = (novelTitle: string) => {
+    if (!detailPath) return;
+    const libs: string[] = JSON.parse(localStorage.getItem("library") || "[]");
+    const next = libs.includes(detailPath)
+      ? libs.filter((p) => p !== detailPath)
+      : [...libs, detailPath];
+    localStorage.setItem("library", JSON.stringify(next));
+    const added = next.includes(detailPath);
+    setInLibrary(added);
+    if (added) {
+      setJustAdded(true);
+      setTimeout(() => setJustAdded(false), 1200);
+      toast.success("Added to your library", { description: novelTitle });
+    } else {
+      toast("Removed from library", { description: novelTitle });
+    }
+  };
+
 
   const { data: novel, isLoading } = useQuery({
     queryKey: ["novel", detailPath],
