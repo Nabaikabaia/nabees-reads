@@ -183,18 +183,59 @@ export default function NovelDetailPage() {
                 <BookOpen className="h-4 w-4" /> Start Reading
               </Link>
             )}
-            <button
-              onClick={() => {
-                const libs: string[] = JSON.parse(localStorage.getItem("library") || "[]");
-                if (!libs.includes(novel.detailPath)) {
-                  libs.push(novel.detailPath);
-                  localStorage.setItem("library", JSON.stringify(libs));
-                }
-              }}
-              className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-2.5 text-sm font-semibold hover:bg-muted transition-colors"
+            <motion.button
+              whileTap={{ scale: 0.93 }}
+              onClick={() => toggleLibrary(novel.title)}
+              aria-pressed={inLibrary}
+              className={`relative inline-flex items-center gap-2 rounded-lg px-6 py-2.5 text-sm font-semibold transition-all overflow-hidden ${
+                inLibrary
+                  ? "bg-primary/10 text-primary border border-primary/40"
+                  : "border border-border hover:bg-muted"
+              }`}
             >
-              + Library
-            </button>
+              <AnimatePresence mode="wait" initial={false}>
+                {justAdded ? (
+                  <motion.span
+                    key="added"
+                    initial={{ scale: 0, rotate: -90 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    exit={{ scale: 0 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 18 }}
+                    className="flex items-center gap-2"
+                  >
+                    <Check className="h-4 w-4" /> Added!
+                  </motion.span>
+                ) : inLibrary ? (
+                  <motion.span
+                    key="in"
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    className="flex items-center gap-2"
+                  >
+                    <BookmarkCheck className="h-4 w-4 fill-primary" /> In Library
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="add"
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -4 }}
+                    className="flex items-center gap-2"
+                  >
+                    <BookmarkPlus className="h-4 w-4" /> Add to Library
+                  </motion.span>
+                )}
+              </AnimatePresence>
+              {justAdded && (
+                <motion.span
+                  initial={{ scale: 0, opacity: 0.6 }}
+                  animate={{ scale: 2.4, opacity: 0 }}
+                  transition={{ duration: 0.7 }}
+                  className="absolute inset-0 rounded-lg bg-primary/30 pointer-events-none"
+                />
+              )}
+            </motion.button>
             <ShareButton
               title={novel.title}
               text={`Read "${novel.title}" by ${novel.author} on Nabees Novel Zone`}
