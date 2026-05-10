@@ -9,7 +9,6 @@ import {
   Type as TypeIcon,
   Settings2,
   ArrowLeft,
-  List,
   Sun,
   Moon,
   Coffee,
