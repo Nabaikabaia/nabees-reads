@@ -216,16 +216,6 @@ export default function ReaderPage() {
                 </p>
               </div>
               <div className="flex items-center gap-1">
-                {chapter.novelId && (
-                  <Link
-                    to={`/novel/${chapter.novelId}/chapters`}
-                    className="p-2 rounded-full active:scale-90 transition-transform"
-                    aria-label="Chapter list"
-                    style={{ color: theme.fg }}
-                  >
-                    <List className="h-5 w-5" />
-                  </Link>
-                )}
                 <button
                   onClick={() => setPanelOpen(true)}
                   className="p-2 rounded-full active:scale-90 transition-transform"
