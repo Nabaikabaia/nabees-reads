@@ -1,5 +1,5 @@
 import { useSettings } from "@/hooks/useSettings";
-import { Moon, Sun, Type, AlignLeft, ArrowLeftRight, ArrowUpDown, Check } from "lucide-react";
+import { Moon, Sun, Type, AlignLeft, ArrowLeftRight, ArrowUpDown, Check, Monitor } from "lucide-react";
 import PageTransition from "@/components/PageTransition";
 import { motion } from "framer-motion";
 
@@ -10,6 +10,12 @@ const FONT_OPTIONS = [
 ];
 
 const FONT_SIZES = [14, 16, 18, 20, 22, 24];
+
+const THEME_OPTIONS = [
+  { value: "auto" as const, label: "Auto", icon: Monitor },
+  { value: "light" as const, label: "Light", icon: Sun },
+  { value: "dark" as const, label: "Dark", icon: Moon },
+];
 
 export default function SettingsPage() {
   const { settings, setSettings } = useSettings();
@@ -22,25 +28,28 @@ export default function SettingsPage() {
         {/* Theme */}
         <section className="space-y-4">
           <h2 className="text-lg font-semibold flex items-center gap-2">
-            {settings.darkMode ? <Moon className="h-5 w-5 text-primary" /> : <Sun className="h-5 w-5 text-primary" />}
+            <Monitor className="h-5 w-5 text-primary" />
             Appearance
           </h2>
-          <div className="grid grid-cols-2 gap-3">
-            {[false, true].map((isDark) => (
+          <p className="text-xs text-muted-foreground -mt-2">
+            Auto follows your device's system theme.
+          </p>
+          <div className="grid grid-cols-3 gap-3">
+            {THEME_OPTIONS.map(({ value, label, icon: Icon }) => (
               <motion.button
-                key={String(isDark)}
+                key={value}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => setSettings({ darkMode: isDark })}
-                className={`relative flex items-center gap-3 rounded-xl border-2 p-4 transition-colors ${
-                  settings.darkMode === isDark
+                onClick={() => setSettings({ themeMode: value })}
+                className={`relative flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-colors ${
+                  settings.themeMode === value
                     ? "border-primary bg-primary/5"
                     : "border-border bg-card hover:border-muted-foreground/30"
                 }`}
               >
-                {isDark ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
-                <span className="font-medium">{isDark ? "Dark" : "Light"}</span>
-                {settings.darkMode === isDark && (
-                  <Check className="h-4 w-4 text-primary absolute top-3 right-3" />
+                <Icon className="h-5 w-5" />
+                <span className="font-medium text-sm">{label}</span>
+                {settings.themeMode === value && (
+                  <Check className="h-4 w-4 text-primary absolute top-2 right-2" />
                 )}
               </motion.button>
             ))}
