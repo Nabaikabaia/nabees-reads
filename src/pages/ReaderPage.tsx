@@ -6,7 +6,6 @@ import {
   ChevronRight,
   Minus,
   Plus,
-  Type as TypeIcon,
   Settings2,
   ArrowLeft,
   Sun,
