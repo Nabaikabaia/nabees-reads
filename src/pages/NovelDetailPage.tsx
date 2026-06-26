@@ -262,7 +262,32 @@ export default function NovelDetailPage() {
               title={novel.title}
               text={`Read "${novel.title}" by ${novel.author} on Nabees Novel Zone`}
             />
+            <motion.button
+              whileTap={{ scale: 0.93 }}
+              onClick={handleDownload}
+              disabled={downloading}
+              aria-busy={downloading}
+              className="relative inline-flex items-center gap-2 rounded-lg px-6 py-2.5 text-sm font-semibold border border-border hover:bg-muted disabled:opacity-80 disabled:cursor-not-allowed overflow-hidden"
+            >
+              {downloading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>{dlProgress.pct}%</span>
+                  <span
+                    className="absolute left-0 bottom-0 h-0.5 bg-primary transition-all duration-200"
+                    style={{ width: `${dlProgress.pct}%` }}
+                  />
+                </>
+              ) : (
+                <>
+                  <Download className="h-4 w-4" /> Download PDF
+                </>
+              )}
+            </motion.button>
           </div>
+          {downloading && dlProgress.msg && (
+            <p className="text-xs text-muted-foreground mt-2 truncate">{dlProgress.msg}</p>
+          )}
         </div>
       </div>
 
