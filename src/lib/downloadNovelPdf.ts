@@ -1,4 +1,4 @@
-import jsPDF from "jspdf";
+import jsPDF, { GState } from "jspdf";
 import html2canvas from "html2canvas";
 import QRCode from "qrcode";
 import { api } from "@/lib/api";
