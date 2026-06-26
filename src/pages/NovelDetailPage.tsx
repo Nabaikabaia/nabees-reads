@@ -17,6 +17,27 @@ export default function NovelDetailPage() {
   const [showFullSummary, setShowFullSummary] = useState(false);
   const [inLibrary, setInLibrary] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const [dlProgress, setDlProgress] = useState({ pct: 0, msg: "" });
+
+  const handleDownload = async () => {
+    if (!novel || downloading) return;
+    setDownloading(true);
+    setDlProgress({ pct: 0, msg: "Starting…" });
+    const tId = toast.loading("Preparing your PDF…", { description: "0%" });
+    try {
+      await downloadNovelPdf(novel, (msg, pct) => {
+        setDlProgress({ pct, msg });
+        toast.loading(msg, { id: tId, description: `${pct}%` });
+      });
+      toast.success("Download ready", { id: tId, description: `${novel.title}.pdf saved` });
+    } catch (e: any) {
+      toast.error("Download failed", { id: tId, description: e?.message || "Try again later" });
+    } finally {
+      setDownloading(false);
+      setDlProgress({ pct: 0, msg: "" });
+    }
+  };
 
   useEffect(() => {
     if (!detailPath) return;
