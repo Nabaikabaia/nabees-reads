@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "react-router-dom";
 import { api } from "@/lib/api";
 import NovelCard from "@/components/NovelCard";
-import { Star, Eye, BookOpen, Clock, ChevronRight, BookmarkCheck, BookmarkPlus, Check } from "lucide-react";
+import { Star, Eye, BookOpen, Clock, ChevronRight, BookmarkCheck, BookmarkPlus, Check, Download, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
@@ -10,12 +10,34 @@ import PageTransition from "@/components/PageTransition";
 import Seo from "@/components/Seo";
 import ShareButton from "@/components/ShareButton";
 import { saveHistory } from "@/hooks/useReadingHistory";
+import { downloadNovelPdf } from "@/lib/downloadNovelPdf";
 
 export default function NovelDetailPage() {
   const { detailPath } = useParams<{ detailPath: string }>();
   const [showFullSummary, setShowFullSummary] = useState(false);
   const [inLibrary, setInLibrary] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+  const [dlProgress, setDlProgress] = useState({ pct: 0, msg: "" });
+
+  const handleDownload = async () => {
+    if (!novel || downloading) return;
+    setDownloading(true);
+    setDlProgress({ pct: 0, msg: "Starting…" });
+    const tId = toast.loading("Preparing your PDF…", { description: "0%" });
+    try {
+      await downloadNovelPdf(novel, (msg, pct) => {
+        setDlProgress({ pct, msg });
+        toast.loading(msg, { id: tId, description: `${pct}%` });
+      });
+      toast.success("Download ready", { id: tId, description: `${novel.title}.pdf saved` });
+    } catch (e: any) {
+      toast.error("Download failed", { id: tId, description: e?.message || "Try again later" });
+    } finally {
+      setDownloading(false);
+      setDlProgress({ pct: 0, msg: "" });
+    }
+  };
 
   useEffect(() => {
     if (!detailPath) return;
@@ -240,7 +262,32 @@ export default function NovelDetailPage() {
               title={novel.title}
               text={`Read "${novel.title}" by ${novel.author} on Nabees Novel Zone`}
             />
+            <motion.button
+              whileTap={{ scale: 0.93 }}
+              onClick={handleDownload}
+              disabled={downloading}
+              aria-busy={downloading}
+              className="relative inline-flex items-center gap-2 rounded-lg px-6 py-2.5 text-sm font-semibold border border-border hover:bg-muted disabled:opacity-80 disabled:cursor-not-allowed overflow-hidden"
+            >
+              {downloading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>{dlProgress.pct}%</span>
+                  <span
+                    className="absolute left-0 bottom-0 h-0.5 bg-primary transition-all duration-200"
+                    style={{ width: `${dlProgress.pct}%` }}
+                  />
+                </>
+              ) : (
+                <>
+                  <Download className="h-4 w-4" /> Download PDF
+                </>
+              )}
+            </motion.button>
           </div>
+          {downloading && dlProgress.msg && (
+            <p className="text-xs text-muted-foreground mt-2 truncate">{dlProgress.msg}</p>
+          )}
         </div>
       </div>
 
