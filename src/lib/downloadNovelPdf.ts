@@ -98,9 +98,9 @@ async function buildCoverPage(pdf: jsPDF, novel: Novel) {
 
   // Subtle dark overlay band bottom for text contrast
   pdf.setFillColor(0, 0, 0);
-  pdf.setGState(new (pdf as any).GState({ opacity: 0.25 }));
+  pdf.setGState(new GState({ opacity: 0.25 }));
   pdf.rect(0, PAGE.h * 0.55, PAGE.w, PAGE.h * 0.45, "F");
-  pdf.setGState(new (pdf as any).GState({ opacity: 1 }));
+  pdf.setGState(new GState({ opacity: 1 }));
 
   // Brand label
   pdf.setFont("helvetica", "bold");
@@ -119,9 +119,9 @@ async function buildCoverPage(pdf: jsPDF, novel: Novel) {
       const y = 110;
       // shadow
       pdf.setFillColor(0, 0, 0);
-      pdf.setGState(new (pdf as any).GState({ opacity: 0.25 }));
+      pdf.setGState(new GState({ opacity: 0.25 }));
       pdf.roundedRect(x + 6, y + 8, targetW, targetH, 8, 8, "F");
-      pdf.setGState(new (pdf as any).GState({ opacity: 1 }));
+      pdf.setGState(new GState({ opacity: 1 }));
       const fmt = img.data.includes("image/png") ? "PNG" : "JPEG";
       try {
         pdf.addImage(img.data, fmt, x, y, targetW, targetH, undefined, "FAST");
@@ -164,9 +164,9 @@ async function buildCoverPage(pdf: jsPDF, novel: Novel) {
     const tw = pdf.getTextWidth(p) + 18;
     if (px + tw > PAGE.w - M) return;
     pdf.setFillColor(255, 255, 255);
-    pdf.setGState(new (pdf as any).GState({ opacity: 0.18 }));
+    pdf.setGState(new GState({ opacity: 0.18 }));
     pdf.roundedRect(px, py - 12, tw, 20, 10, 10, "F");
-    pdf.setGState(new (pdf as any).GState({ opacity: 1 }));
+    pdf.setGState(new GState({ opacity: 1 }));
     pdf.setTextColor(255, 255, 255);
     pdf.text(p, px + 9, py + 2);
     px += tw + 6;
