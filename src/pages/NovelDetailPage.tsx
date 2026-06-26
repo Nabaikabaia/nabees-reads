@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams, Link } from "react-router-dom";
 import { api } from "@/lib/api";
 import NovelCard from "@/components/NovelCard";
-import { Star, Eye, BookOpen, Clock, ChevronRight, BookmarkCheck, BookmarkPlus, Check } from "lucide-react";
+import { Star, Eye, BookOpen, Clock, ChevronRight, BookmarkCheck, BookmarkPlus, Check, Download, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
@@ -10,6 +10,7 @@ import PageTransition from "@/components/PageTransition";
 import Seo from "@/components/Seo";
 import ShareButton from "@/components/ShareButton";
 import { saveHistory } from "@/hooks/useReadingHistory";
+import { downloadNovelPdf } from "@/lib/downloadNovelPdf";
 
 export default function NovelDetailPage() {
   const { detailPath } = useParams<{ detailPath: string }>();
